@@ -40,6 +40,22 @@ Or access its logs:
 docker-compose logs oss-chat
 ```
 
+## Accessing Ollama
+Ollama runs on port 11434. You can interact with its API using curl or your browser:
+
+```bash
+curl http://localhost:11434/api/tags
+```
+Or open [http://localhost:11434](http://localhost:11434) in your browser (if a web interface is available).
+
+## Accessing Open WebUI
+Open WebUI runs on port 4000. Access it in your browser:
+
+```
+http://localhost:4000
+```
+This provides a web interface to interact with Ollama models.
+
 ## Additional Tips
 - To view all running containers: `docker ps`
 - To view logs for all services: `docker-compose logs`
