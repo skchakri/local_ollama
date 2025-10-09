@@ -26,14 +26,60 @@ services:
     image: ollama/ollama:latest
     depends_on:
       - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
     entrypoint: >
       sh -c "
-      until curl -sf http://ollama:11434/api/tags >/dev/null; do sleep 1; done;
-      ollama pull gpt-oss:20b
+      sleep 10;
+      ollama pull qwen2.5:14b &&
+      ollama pull nomic-embed-text
       "
     restart: "no"
 
+  # stable-diffusion-webui:
+  #   image: universonic/stable-diffusion-webui:latest
+  #   container_name: stable-diffusion-webui
+  #   ports:
+  #     - "7860:7860"
+  #   restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
+  #   volumes:
+  #     - sd_models:/app/stable-diffusion-webui/models
+  #     - sd_outputs:/app/stable-diffusion-webui/outputs
+  #   environment:
+  #     - CLI_ARGS=--allow-code --medvram --xformers --enable-insecure-extension-access --api
+  #   # DISABLED: RTX 5090 (sm_120) requires PyTorch with CUDA 12.4+ support
+  #   # Current image only supports up to sm_90
+
+  stable-diffusion-api:
+    image: gadicc/diffusers-api
+    container_name: stable-diffusion-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - sd_api_models:/root/.cache/huggingface
+    environment:
+      - MODEL_ID=stabilityai/stable-diffusion-2-1
+      - USE_PATCHMATCH=0
+    shm_size: '8gb'
 
 volumes:
   ollama_data:
   openwebui_data:
+  sd_models:
+  sd_outputs:
+  sd_api_models:
