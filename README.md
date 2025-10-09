@@ -7,15 +7,17 @@
 To start all services defined in `docker-compose.yml`:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 This will run the containers in detached mode.
+
+**Note**: Use `docker compose` (with a space) instead of the deprecated `docker-compose` (with a hyphen). Docker Compose V2 is now integrated into the Docker CLI.
 
 ## Stopping the Project
 To stop and remove all containers:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## Checking Ollama
@@ -26,7 +28,7 @@ docker ps | grep ollama
 ```
 Or access its logs:
 ```bash
-docker-compose logs ollama
+docker compose logs ollama
 ```
 
 ## Checking OSS Chat
@@ -37,7 +39,7 @@ docker ps | grep oss-chat
 ```
 Or access its logs:
 ```bash
-docker-compose logs oss-chat
+docker compose logs oss-chat
 ```
 
 ## Accessing Ollama
@@ -58,7 +60,7 @@ This provides a web interface to interact with Ollama models.
 
 ## Additional Tips
 - To view all running containers: `docker ps`
-- To view logs for all services: `docker-compose logs`
+- To view logs for all services: `docker compose logs`
 
 ---
 Update service names (`ollama`, `oss-chat`) if your `docker-compose.yml` uses different names.
