@@ -32,7 +32,8 @@ services:
       sh -c "
       sleep 10;
       ollama pull qwen2.5:14b &&
-      ollama pull nomic-embed-text
+      ollama pull nomic-embed-text &&
+      ollama pull medllama2
       "
     restart: "no"
 
